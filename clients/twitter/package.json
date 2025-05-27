@@ -1,0 +1,13 @@
+{
+    "name": "@echo/twitter-client",
+    "version": "1.0.0",
+    "description": "Twitter client for echo agent framework",
+    "main": "index.js",
+    "dependencies": {
+        "agent-twitter-client": "0.0.18",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "dotenv": "^16.0.3"
+    }
+}
