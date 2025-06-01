@@ -7,6 +7,26 @@ Telos is your AI accountability partner, built to help you stay true to the pers
 **· Milestone Tracking** – Stay on track with check-ins and progress checks  
 **· Automated Payouts** – Achieve your goals, reclaim your stake seamlessly
 
+
+**Get Started with Telos**  
+---
+Making a commitment contract with Telos is easy:  
+
+**1. Connect via Twitter/X**  
+
+* Follow @AporiaTelos  
+* Post your goal and tag Telos in the tweet  
+* Example: "@AporiaTelos I’m committing to run 25 miles this month."  
+
+**2. Create Your Contract**  
+
+* Telos will help you shape your goal into something clear and measurable  
+* Choose how much SOL you want to stake
+* Define what success looks like
+* Set your deadline
+
+Support via Discord and Telegram coming soon!
+
 **How It Works**
 ---
 **1. Share Your Goal with Telos**  
