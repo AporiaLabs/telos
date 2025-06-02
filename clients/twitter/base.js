@@ -249,18 +249,42 @@ class TwitterBase extends EventEmitter {
      * @param {number} [count=20] - Number of tweets to fetch
      * @returns {Promise<Tweet[]>} Array of matching tweets
      */
+	
     async searchTweets(query, count = 20) {
-        try {
-            const results = await this.requestQueue.add(() =>
-                this.twitterClient.fetchSearchTweets(query, count, "Latest")
-            );
-            return results.tweets;
-        } catch (error) {
-            console.error("Error searching tweets:", error);
-            return [];
-        }
-    }
+	try {
+		const results = await this.requestQueue.add(() =>
+		this.twitterClient.fetchSearchTweets(query, count, "Latest")
+			);
+			return results.tweets.map((tweet) => {
+				const imageUrls = [];
+				for (const photoItem of tweet.photos || []) {
+					imageUrls.push(photoItem.url);
+				}
 
+				let cleanedText = tweet.text;
+				if (imageUrls.length > 0) {
+					const urlPattern = /https:\/\/t\.co\/\w+/g;
+					cleanedText = cleanedText.replace(urlPattern, "<IMAGE>");
+				}
+
+				return {
+					id: tweet.id,
+					name: tweet.name,
+					username: tweet.username,
+					text: cleanedText,
+					timestamp: tweet.timestamp,
+					userId: tweet.userId,
+					conversationId: tweet.conversationId,
+					inReplyToStatusId: tweet.inReplyToStatusId,
+					permanentUrl: tweet.permanentUrl,
+					imageUrls: imageUrls.length > 0 ? imageUrls : undefined,
+				};
+			});
+		} catch (error) {
+			console.error("Error searching tweets:", error);
+			return [];
+	      }
+    }
     /**
      * Get mentions of the authenticated user
      * @param {number} [count=20] - Number of mentions to fetch
