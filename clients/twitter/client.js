@@ -61,6 +61,7 @@ class TwitterClient extends TwitterBase {
      *   userId: string,
      *   conversationId: string,
      *   permanentUrl: string
+     *   imageUrls: tweet.imageUrls,
      * }>>} Array of posted tweets if successful
      */
     async generateAndPost() {
