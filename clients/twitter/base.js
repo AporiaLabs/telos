@@ -12,6 +12,7 @@ const { Scraper } = require("agent-twitter-client");
  * @property {string} conversationId - Conversation thread ID
  * @property {string} inReplyToStatusId - ID of parent tweet if reply
  * @property {string} permanentUrl - Permanent URL to tweet
+ * @property {string[]} [imageUrls] - Optional array of image URLs
  */
 
 class RequestQueue {
@@ -130,12 +131,23 @@ class TwitterBase extends EventEmitter {
      * @param {string} tweetId - ID of tweet to fetch
      * @returns {Promise<Tweet|null>} Tweet object or null if not found
      */
+    
     async getTweet(tweetId) {
         try {
             const tweet = await this.requestQueue.add(() =>
                 this.twitterClient.getTweet(tweetId)
             );
-
+            
+			// Grab image URLs
+			const imageUrls = [];
+			if (tweet.media) {Add commentMore actions
+				for (const mediaItem of tweet.media) {
+					if (mediaItem.type === "photo") {
+						imageUrls.push(mediaItem.url);
+					}
+				}
+			}
+            
             return {
                 id: tweet.id,
                 name: tweet.name,
@@ -146,6 +158,9 @@ class TwitterBase extends EventEmitter {
                 conversationId: tweet.conversationId,
                 inReplyToStatusId: tweet.inReplyToStatusId,
                 permanentUrl: tweet.permanentUrl,
+                imageUrls: imageUrls.length > 0 ? imageUrls : undefined,
+
+
             };
         } catch (error) {
             console.error("Error fetching tweet:", error);
