@@ -39,10 +39,6 @@ export class LLMUtils {
 	}
 
 	async getBooleanFromLLM(prompt: string, size: LLMSize): Promise<boolean> {
-		const booleanSchema = z.object({
-			result: z.boolean(),
-			explanation: z.string(),
-		});
 
 		const model = size === LLMSize.LARGE ? "gpt-4o" : "gpt-4o-mini";
 
@@ -101,16 +97,23 @@ export class LLMUtils {
 	}
 
 	async getTextFromLLM(prompt: string, model: string): Promise<string> {
-		const response = await fetch(
+		const response = await axios.post(
 			"https://openrouter.ai/api/v1/chat/completions",
 			{
-				method: "POST",
+				model,Add commentMore actions
+				messages: [
+					{
+						role: "user",
+						content: prompt,Add commentMore actions
+					},
+				],
+			},
+			{
 				headers: {
 					Authorization: `Bearer ${this.openrouterApiKey}`,
 					"Content-Type": "application/json",
 					"HTTP-Referer": process.env.APP_URL || "http://localhost:3000",
 				},
-				body: JSON.stringify({
 					model,
 					messages: [
 						{
