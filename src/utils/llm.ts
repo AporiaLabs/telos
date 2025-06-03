@@ -1,7 +1,11 @@
 import OpenAI from "openai";
 import { z } from "zod";
+import axios from "axios";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { LLMSize } from "../types";
+import { ChatCompletionContentPartImage } from "openai/resources/chat/completions";
+
+
 
 interface OpenRouterResponse {
 	choices: Array<{
@@ -10,6 +14,12 @@ interface OpenRouterResponse {
 		};
 	}>;
 }
+
+const booleanSchema = z.object({
+	result: z.boolean(),
+	explanation: z.string(),
+});
+
 // Why JSON responses only from OpenAI? Because the other SDKs are unreliable.
 export class LLMUtils {
 	private openai: OpenAI;
