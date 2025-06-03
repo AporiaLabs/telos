@@ -114,11 +114,122 @@ export class LLMUtils {
 					"Content-Type": "application/json",
 					"HTTP-Referer": process.env.APP_URL || "http://localhost:3000",
 				},
+				}Add commentMore actions
+		);
+
+		if (!response.data?.choices?.[0]?.message?.content) {
+			throw new Error("Invalid response format from OpenRouter");
+		}
+
+		return response.data.choices[0].message.content;
+	}
+
+	async getObjectFromLLMWithImages<T>(
+		prompt: string,
+		schema: z.ZodSchema<T>,
+		imageUrls: string[],
+		size: LLMSize
+	): Promise<T> {
+		const base64Images = await convertUrlsToBase64(imageUrls);
+		if (base64Images.length === 0) {
+			throw new Error("Failed to process images");
+		}
+
+		const model = size === LLMSize.LARGE ? "gpt-4o" : "gpt-4o-mini";
+
+		const response = await this.openai.beta.chat.completions.parse({
+			model,
+			messages: [
+				{
+					role: "user",
+					content: [
+						{
+							type: "text",
+							text: prompt,
+						},
+						...base64Images.map(
+							(image): ChatCompletionContentPartImage => ({
+								type: "image_url",
+								image_url: {
+									url: `data:${image.contentType};base64,${image.base64}`,
+								},
+							})
+						),
+					],
+				},
+			],
+			response_format: zodResponseFormat(schema, "customSchema"),
+		});
+
+		if (!response.choices[0]?.message?.content) {
+			throw new Error("Invalid response format from OpenAI");
+		}
+
+		return schema.parse(JSON.parse(response.choices[0].message.content));
+	}
+
+	async getBooleanFromLLMWithImages(
+		prompt: string,
+		imageUrls: string[],
+		size: LLMSize
+	): Promise<boolean> {
+		const base64Images = await convertUrlsToBase64(imageUrls);
+		if (base64Images.length === 0) {
+			throw new Error("Failed to process images");
+		}
+
+		const model = size === LLMSize.LARGE ? "gpt-4o" : "gpt-4o-mini";
+
+		const response = await this.openai.beta.chat.completions.parse({
+			model,
+			messages: [
+				{
+					role: "user",
+					content: [
+						{
+							type: "text",Add commentMore actions
+							text: prompt,
+						},
+						...base64Images.map(
+							(image): ChatCompletionContentPartImage => ({
+								type: "image_url",
+								image_url: {
+									url: `data:${image.contentType};base64,${image.base64}`,
+								},
+							})
+						),
+					],
+				},
+			],
+			response_format: zodResponseFormat(booleanSchema, "booleanSchema"),
+		});
+
+		if (!response.choices[0]?.message?.content) {
+			throw new Error("Invalid response format from OpenAI");
+		}
+
+		const analysis = JSON.parse(response.choices[0].message.content);
+		return analysis.result;
+	}
+
+	async getTextWithImageFromLLM(
+		prompt: string,
+		imageUrls: string[],
+		model: string
+	): Promise<string> {
+		const base64Images = await convertUrlsToBase64(imageUrls);
+		if (base64Images.length === 0) {
+			throw new Error("Failed to process images");
+		}
+
+		try {
+			const response = await axios.post(
+				"https://openrouter.ai/api/v1/chat/completions",
+				{
 					model,
 					messages: [
 						{
 							role: "user",
-							content: prompt,
 						},
 					],
 				}),
