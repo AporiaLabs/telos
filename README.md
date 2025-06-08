@@ -52,3 +52,5 @@ Support via Discord and Telegram coming soon!
 · Reclaim your stake once Telos verifies your success  
 · Take a step closer to who you’re meant to become  
 
+---
+
