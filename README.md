@@ -1,3 +1,12 @@
+# Agent Telos
+
+<div align="center">
+  <img src="assets/pfp.png" alt="Agent Telos" width="500" height="500" />
+  <p><em>Developed by <a href="https://aporia.cc/telos">Aporia Labs</a></em></p>
+</div>
+
+<br></br>
+
 Telos is your AI accountability partner, built to help you stay true to the person you aim to become. By blending Stoic-inspired mentorship with Solana smart contracts, Telos makes your goals real—backed by stakes that hold you accountable.
 
 **Core Features**  
@@ -14,7 +23,7 @@ Making a commitment contract with Telos is easy:
 
 **1. Connect via Twitter/X**  
 
-* Follow @AporiaTelos  
+* Follow [@AporiaTelos](https://x.com/AporiaTelos)
 * Post your goal and tag Telos in the tweet  
 * Example: "@AporiaTelos I’m committing to run 25 miles this month."  
 
@@ -54,3 +63,26 @@ Support via Discord and Telegram coming soon!
 
 ---
 
+## Security
+
+- Encrypted private keys
+- New wallet for every contract
+- Secure conversation storage
+
+## Community
+
+- Twitter: [@AporiaTelos](https://x.com/AporiaTelos)
+- Discord: Coming soon
+- Telegram: Integration planned
+
+## License
+
+MIT License - See [LICENSE](LICENSE) for details
+
+---
+
+_"The obstacle to action advances action. What stands in the way becomes the way." - Marcus Aurelius_
+
+For questions or issues, please check our [existing issues](https://github.com/AporiaLabs/telos/issues) or open a new one.
+
+Visit [aporia.cc/telos](https://aporia.cc/telos) to learn more.
