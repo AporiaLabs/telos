@@ -71,7 +71,8 @@ Support via Discord and Telegram coming soon!
 
 ## Community
 
-- Twitter: [@AporiaTelos](https://x.com/AporiaTelos)
+- Telos Twitter: [@AporiaTelos](https://x.com/AporiaTelos)
+- Main Twitter: [@AporiaLabs](https://x.com/AporiaLabs)
 - Discord: Coming soon
 - Telegram: Integration planned
 
