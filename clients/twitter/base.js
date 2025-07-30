@@ -229,21 +229,21 @@ class TwitterBase extends EventEmitter {
     }
 
      /**
- * Schedule a tweet for later
- * @param {string} text
- * @param {Date} when
- */
-scheduleTweet(text, when) {
-    const delayMs = when.getTime() - Date.now();
-    if (delayMs <= 0) {
-        return this.sendTweet(text);
+     * Schedule a tweet for later
+     * @param {string} text
+     * @param {Date} when
+     */
+    scheduleTweet(text, when) {
+        const delayMs = when.getTime() - Date.now();
+        if (delayMs <= 0) {
+            return this.sendTweet(text);
+        }
+        setTimeout(() => {
+            this.sendTweet(text).catch((err) =>
+                console.error("Scheduled tweet error:", err)
+            );
+        }, delayMs);
     }
-    setTimeout(() => {
-        this.sendTweet(text).catch((err) =>
-            console.error("Scheduled tweet error:", err)
-        );
-    }, delayMs);
-}
 
     /**
      * Like a tweet
@@ -260,6 +260,33 @@ scheduleTweet(text, when) {
         }
     }
 
+    /**
+     * Polls a hashtag periodically and emits an event for new tweets
+     * @param {string} hashtag
+     * @param {number} intervalMs
+    */
+    monitorHashtag(hashtag, intervalMs = 60000) {
+        let lastSeen = 0;
+        const check = async () => {
+            try {
+                const results = await this.searchTweets(`${hashtag}`, 20);
+                for (const tweet of results) {
+                    if (tweet.timestamp > lastSeen) {
+                        this.emit("hashtag:new", tweet);
+                        lastSeen = Math.max(lastSeen, tweet.timestamp);
+                    }
+                }
+            } catch (err) {
+                console.error("Error monitoring hashtag:", err);
+            } finally {
+                setTimeout(check, intervalMs);
+            }
+        };
+        check();
+    }
+
+
+	
     /**
      * Search for tweets
      * @param {string} query - Search query
