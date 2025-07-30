@@ -228,6 +228,23 @@ class TwitterBase extends EventEmitter {
         }
     }
 
+     /**
+ * Schedule a tweet for later
+ * @param {string} text
+ * @param {Date} when
+ */
+scheduleTweet(text, when) {
+    const delayMs = when.getTime() - Date.now();
+    if (delayMs <= 0) {
+        return this.sendTweet(text);
+    }
+    setTimeout(() => {
+        this.sendTweet(text).catch((err) =>
+            console.error("Scheduled tweet error:", err)
+        );
+    }, delayMs);
+}
+
     /**
      * Like a tweet
      * @param {string} tweetId - ID of tweet to like
