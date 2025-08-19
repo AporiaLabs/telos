@@ -71,3 +71,17 @@ Nonce: ${nonce}
     console.warn(`[tweet-gen] Rejected due to ban or length (attempt ${attempt + 1})`);
     attempt++;
   }
+
+  // If still empty or banned, final forced prompt that cannot produce banned lines
+  if (!tweet || containsBanned(tweet)) {
+    const raw = await llmUtils.getTextFromLLM(
+      `<SYSTEM>
+Write a single, fresh tweet in Telos's voice about discipline and daily practice.
+Do NOT use any of these phrases: ${BANNED.join(", ")}.
+No metaphors with keepers, quantum, glassmakers, or "knows:".
+140–240 chars. Only the tweet text.
+</SYSTEM>`,
+      "anthropic/claude-3.5-sonnet"
+    );
+    tweet = sanitize(raw);
+  }
