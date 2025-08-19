@@ -85,3 +85,13 @@ No metaphors with keepers, quantum, glassmakers, or "knows:".
     );
     tweet = sanitize(raw);
   }
+
+  const message = `Tweeted: ${tweet}`;
+  await createTwitterMemory(
+    req.input.userId,
+    req.input.agentId,
+    req.input.roomId,
+    message
+  );
+  await res.send(tweet);
+};
