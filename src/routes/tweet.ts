@@ -24,4 +24,19 @@ const THEMES = [
   "habits and environment", "feedback loops", "small bets", "anti-fragility"
 ];
 
+
+function containsBanned(text: string): boolean {
+  const t = text.toLowerCase();
+  return BANNED.some((p) => t.includes(p));
+}
+
+export const handleTweetGeneration = async (
+  context: string,
+  req: AgentRequest,
+  res: AgentResponse
+): Promise<void> => {
+  const now = new Date().toISOString();
+  let attempt = 0;
+  let tweet = "";
+
 };
